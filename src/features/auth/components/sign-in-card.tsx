@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SignInFlow } from "@/features/auth/types";
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useState } from "react";
+import { TriangleAlert } from "lucide-react";
+import { FormEvent, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
@@ -21,11 +22,31 @@ type Props = {
 };
 
 export function SignInCard({ setState }: Props) {
+  const { signIn } = useAuthActions();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [pending, setPending] = useState(false);
 
-  const { signIn } = useAuthActions();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
+
+  const handlePasswordSignIn = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setPending(true);
+
+    signIn("password", {
+      email,
+      password,
+      flow: "signIn",
+    })
+      .catch(() => {
+        setError("Invalid email or password");
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  };
 
   const handleProviderSignIn = (provider: "google" | "github") => {
     setPending(true);
@@ -41,9 +62,17 @@ export function SignInCard({ setState }: Props) {
         </CardDescription>
       </CardHeader>
 
+      {!!error && (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
+          <TriangleAlert className="size-4" />
+          <p>{error}</p>
+        </div>
+      )}
+
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5">
+        <form className="space-y-2.5" onSubmit={handlePasswordSignIn}>
           <Input
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -53,6 +82,7 @@ export function SignInCard({ setState }: Props) {
           />
 
           <Input
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
