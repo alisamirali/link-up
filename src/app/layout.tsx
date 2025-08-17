@@ -1,10 +1,15 @@
-import { ConvexClientProvider } from "@/components";
+import { ConvexClientProvider, Modals } from "@/components";
+import { Toaster } from "@/components/ui/sonner";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
   title: "LinkUp – Team Chat & Collaboration",
@@ -20,8 +25,13 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className={inter.className}>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+        <body className={poppins.className}>
+          <ConvexClientProvider>
+            {children}
+
+            <Modals />
+            <Toaster />
+          </ConvexClientProvider>
         </body>
       </html>
     </ConvexAuthNextjsServerProvider>
