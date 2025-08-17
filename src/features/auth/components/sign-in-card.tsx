@@ -23,10 +23,13 @@ type Props = {
 export function SignInCard({ setState }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [pending, setPending] = useState(false);
+
   const { signIn } = useAuthActions();
 
   const handleProviderSignIn = (provider: "google" | "github") => {
-    signIn(provider);
+    setPending(true);
+    signIn(provider).finally(() => setPending(false));
   };
 
   return (
@@ -46,7 +49,7 @@ export function SignInCard({ setState }: Props) {
             placeholder="Email"
             type="email"
             required
-            disabled={false}
+            disabled={pending}
           />
 
           <Input
@@ -55,10 +58,10 @@ export function SignInCard({ setState }: Props) {
             placeholder="Password"
             type="password"
             required
-            disabled={false}
+            disabled={pending}
           />
 
-          <Button type="submit" className="w-full" size="lg" disabled={false}>
+          <Button type="submit" className="w-full" size="lg" disabled={pending}>
             Continue
           </Button>
         </form>
@@ -70,8 +73,8 @@ export function SignInCard({ setState }: Props) {
             type="button"
             className="w-full"
             size="lg"
-            disabled={false}
-            onClick={() => {}}
+            disabled={pending}
+            onClick={() => handleProviderSignIn("google")}
             variant="outline"
           >
             <FcGoogle className="!size-5" />
@@ -81,7 +84,7 @@ export function SignInCard({ setState }: Props) {
             type="button"
             className="w-full"
             size="lg"
-            disabled={false}
+            disabled={pending}
             onClick={() => handleProviderSignIn("github")}
             variant="outline"
           >

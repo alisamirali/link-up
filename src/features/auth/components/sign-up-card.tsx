@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SignInFlow } from "@/features/auth/types";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -24,6 +25,14 @@ export function SignUpCard({ setState }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [pending, setPending] = useState(false);
+
+  const { signIn } = useAuthActions();
+
+  const handleProviderSignUp = (provider: "google" | "github") => {
+    setPending(true);
+    signIn(provider).finally(() => setPending(false));
+  };
 
   return (
     <Card className="h-full w-full p-8">
@@ -42,7 +51,7 @@ export function SignUpCard({ setState }: Props) {
             placeholder="Full name"
             type="text"
             required
-            disabled={false}
+            disabled={pending}
           />
 
           <Input
@@ -51,7 +60,7 @@ export function SignUpCard({ setState }: Props) {
             placeholder="Email"
             type="email"
             required
-            disabled={false}
+            disabled={pending}
           />
 
           <Input
@@ -60,7 +69,7 @@ export function SignUpCard({ setState }: Props) {
             placeholder="Password"
             type="password"
             required
-            disabled={false}
+            disabled={pending}
           />
 
           <Input
@@ -69,10 +78,10 @@ export function SignUpCard({ setState }: Props) {
             placeholder="Confirm password"
             type="password"
             required
-            disabled={false}
+            disabled={pending}
           />
 
-          <Button type="submit" className="w-full" size="lg" disabled={false}>
+          <Button type="submit" className="w-full" size="lg" disabled={pending}>
             Continue
           </Button>
         </form>
@@ -84,8 +93,8 @@ export function SignUpCard({ setState }: Props) {
             type="button"
             className="w-full"
             size="lg"
-            disabled={false}
-            onClick={() => {}}
+            disabled={pending}
+            onClick={() => handleProviderSignUp("google")}
             variant="outline"
           >
             <FcGoogle className="!size-5" />
@@ -95,8 +104,8 @@ export function SignUpCard({ setState }: Props) {
             type="button"
             className="w-full"
             size="lg"
-            disabled={false}
-            onClick={() => {}}
+            disabled={pending}
+            onClick={() => handleProviderSignUp("github")}
             variant="outline"
           >
             <FaGithub className="!size-5" />
