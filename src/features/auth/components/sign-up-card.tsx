@@ -24,6 +24,7 @@ type Props = {
 export function SignUpCard({ setState }: Props) {
   const { signIn } = useAuthActions();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -42,6 +43,7 @@ export function SignUpCard({ setState }: Props) {
     setPending(true);
 
     signIn("password", {
+      name,
       email,
       password,
       flow: "signUp",
@@ -77,6 +79,15 @@ export function SignUpCard({ setState }: Props) {
 
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5" onSubmit={handlePasswordSignUp}>
+          <Input
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Full name"
+            required
+            disabled={pending}
+          />
+
           <Input
             name="email"
             value={email}
