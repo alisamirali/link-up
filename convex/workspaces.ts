@@ -5,6 +5,7 @@ import { auth } from "./auth";
 export const create = mutation({
   args: {
     name: v.string(),
+    emoji: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const userId = await auth.getUserId(ctx);
@@ -17,6 +18,7 @@ export const create = mutation({
       name: args.name,
       userId,
       joinCode,
+      emoji: args.emoji,
     });
 
     return workspaceId;
