@@ -1,6 +1,6 @@
 "use client";
 
-import { Toolbar } from "@/features/workspaces/components";
+import { Toolbar, WorkspaceSidebar } from "@/app/workspace/components";
 
 export default function WorkspaceLayout({
   children,
@@ -10,7 +10,11 @@ export default function WorkspaceLayout({
   return (
     <div className="h-full">
       <Toolbar />
-      {children}
+
+      <div className="flex h-[calc(100vh-40px)]">
+        <WorkspaceSidebar />
+        {children}
+      </div>
     </div>
   );
 }

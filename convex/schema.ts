@@ -8,6 +8,7 @@ const schema = defineSchema({
     name: v.string(),
     userId: v.id("users"),
     joinCode: v.string(),
+    emoji: v.optional(v.string()),
   }),
 });
 

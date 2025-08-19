@@ -5,6 +5,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 type RequestType = {
   name: string;
+  emoji?: string;
 };
 
 type ResponseType = Id<"workspaces"> | null;

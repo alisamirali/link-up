@@ -16,6 +16,7 @@ import { toast } from "sonner";
 
 export function CreateWorkspaceModal() {
   const [name, setName] = useState("");
+  const [emoji, setEmoji] = useState("");
   const [open, setOpen] = useCreateWorkspaceModal();
   const { mutate, isPending, isError, isSuccess, data, error } =
     useCreateWorkspace();
@@ -24,13 +25,14 @@ export function CreateWorkspaceModal() {
   const handleClose = () => {
     setOpen(false);
     setName("");
+    setEmoji("");
   };
 
   const handleCreateWorkspace = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mutate(
-      { name },
+      { name, emoji },
       {
         onSuccess: (workspaceId) => {
           toast.success("Workspace created successfully");
@@ -50,11 +52,20 @@ export function CreateWorkspaceModal() {
 
         <form className="space-y-4" onSubmit={handleCreateWorkspace}>
           <Input
+            value={emoji}
+            onChange={(e) => setEmoji(e.target.value)}
+            required
+            disabled={isPending}
+            autoFocus
+            minLength={1}
+            placeholder="Workspace emoji e.g. '🚀', '💼'"
+          />
+
+          <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
             disabled={isPending}
-            autoFocus
             minLength={3}
             placeholder="Workspace name e.g. 'Work', 'Personal'"
           />
