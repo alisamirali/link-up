@@ -24,7 +24,7 @@ type WorkspaceHeaderProps = {
 };
 
 export function WorkspaceHeader({ workspace, isAdmin }: WorkspaceHeaderProps) {
-  const [preferencesOpen, setPreferencesOpen] = useState(true);
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
 
   return (
     <>
