@@ -1,6 +1,15 @@
 "use client";
 
-import { Toolbar, WorkspaceSidebar } from "@/app/workspace/components";
+import {
+  Toolbar,
+  WorkspaceChannelsSidebar,
+  WorkspaceSidebar,
+} from "@/app/workspace/components";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export default function WorkspaceLayout({
   children,
@@ -13,7 +22,23 @@ export default function WorkspaceLayout({
 
       <div className="flex h-[calc(100vh-40px)]">
         <WorkspaceSidebar />
-        {children}
+
+        <ResizablePanelGroup
+          direction="horizontal"
+          autoSaveId="workspace-layout"
+        >
+          <ResizablePanel
+            defaultSize={20}
+            minSize={11}
+            className="bg-[#5E2C5F]"
+          >
+            <WorkspaceChannelsSidebar />
+          </ResizablePanel>
+
+          <ResizableHandle withHandle />
+
+          <ResizablePanel minSize={20}>{children}</ResizablePanel>
+        </ResizablePanelGroup>
       </div>
     </div>
   );
