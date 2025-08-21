@@ -3,6 +3,7 @@ import { Hint } from "@/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useGetChannels } from "@/features/channels/api";
+import { useCreateChannelModal } from "@/features/channels/store";
 import { useCurrentMember, useGetMembers } from "@/features/members/api";
 import { useGetWorkspace } from "@/features/workspaces/api";
 import { useWorkspaceId } from "@/hooks";
@@ -25,6 +26,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 export function WorkspaceChannelsSidebar() {
   const workspaceId = useWorkspaceId();
+  const [_open, setOpen] = useCreateChannelModal();
 
   const { data: member, isLoading: isLoadingMember } = useCurrentMember({
     workspaceId,
@@ -71,7 +73,11 @@ export function WorkspaceChannelsSidebar() {
         />
       </div>
 
-      <WorkspaceSection label="Channels" hint="New Channel" onNew={() => {}}>
+      <WorkspaceSection
+        label="Channels"
+        hint="New Channel"
+        onNew={member.role === "admin" ? () => setOpen(true) : undefined}
+      >
         {channels?.map((channel) => (
           <SidebarItem
             key={channel._id}
