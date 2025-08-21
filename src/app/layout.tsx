@@ -1,4 +1,4 @@
-import { ConvexClientProvider, Modals } from "@/components";
+import { ConvexClientProvider, JotaiProvider, Modals } from "@/components";
 import { Toaster } from "@/components/ui/sonner";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import type { Metadata } from "next";
@@ -27,10 +27,11 @@ export default function RootLayout({
       <html lang="en">
         <body className={poppins.className}>
           <ConvexClientProvider>
-            {children}
-
-            <Modals />
-            <Toaster />
+            <JotaiProvider>
+              {children}
+              <Modals />
+              <Toaster />
+            </JotaiProvider>
           </ConvexClientProvider>
         </body>
       </html>
