@@ -26,9 +26,11 @@ export function UserButton() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none relative">
-        <Avatar className="size-10 hover:opacity-75 transition">
-          <AvatarImage src={image} alt={name} />
-          <AvatarFallback>{avatarFallback}</AvatarFallback>
+        <Avatar className="size-10 hover:opacity-75 transition rounded-md">
+          <AvatarImage className="rounded-md" src={image} alt={name} />
+          <AvatarFallback className="bg-sky-500 text-white rounded-md">
+            {avatarFallback}
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">
