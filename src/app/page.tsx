@@ -1,12 +1,11 @@
 "use client";
 
-import { UserButton } from "@/features/auth/components";
 import { useGetWorkspaces } from "@/features/workspaces/api";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
 
-export default function Home() {
+export default function HomePage() {
   const router = useRouter();
   const { data, isLoading } = useGetWorkspaces();
   const [open, setOpen] = useCreateWorkspaceModal();
@@ -23,9 +22,5 @@ export default function Home() {
     }
   }, [workspaceId, isLoading, open, setOpen, router]);
 
-  return (
-    <div>
-      <UserButton />
-    </div>
-  );
+  return null;
 }
