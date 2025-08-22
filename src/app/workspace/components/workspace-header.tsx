@@ -1,4 +1,7 @@
-import { WorkspacePreferencesModal } from "@/app/workspace/components";
+import {
+  WorkspaceInviteModal,
+  WorkspacePreferencesModal,
+} from "@/app/workspace/components";
 import { Hint } from "@/components";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,10 +27,19 @@ type WorkspaceHeaderProps = {
 };
 
 export function WorkspaceHeader({ workspace, isAdmin }: WorkspaceHeaderProps) {
+  const [inviteOpen, setInviteOpen] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
 
   return (
     <>
+      <WorkspaceInviteModal
+        open={inviteOpen}
+        setOpen={setInviteOpen}
+        name={workspace.name}
+        emoji={workspace?.emoji!}
+        joinCode={workspace.joinCode}
+      />
+
       <WorkspacePreferencesModal
         open={preferencesOpen}
         setOpen={setPreferencesOpen}
@@ -66,8 +78,8 @@ export function WorkspaceHeader({ workspace, isAdmin }: WorkspaceHeaderProps) {
             {isAdmin && (
               <>
                 <DropdownMenuItem
-                  className="cursor-pointer py-2 flex items-center gap-2"
-                  onClick={() => {}}
+                  className="cursor-pointer py-2 flex truncate items-center gap-2"
+                  onClick={() => setInviteOpen(true)}
                 >
                   <Users className="size-5" />
                   Invite people to {workspace?.name}
