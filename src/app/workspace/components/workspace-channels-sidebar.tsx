@@ -6,7 +6,7 @@ import { useGetChannels } from "@/features/channels/api";
 import { useCreateChannelModal } from "@/features/channels/store";
 import { useCurrentMember, useGetMembers } from "@/features/members/api";
 import { useGetWorkspace } from "@/features/workspaces/api";
-import { useWorkspaceId } from "@/hooks";
+import { useChannelId, useWorkspaceId } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
@@ -26,6 +26,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 export function WorkspaceChannelsSidebar() {
   const workspaceId = useWorkspaceId();
+  const channelId = useChannelId();
   const [_open, setOpen] = useCreateChannelModal();
 
   const { data: member, isLoading: isLoadingMember } = useCurrentMember({
@@ -78,14 +79,17 @@ export function WorkspaceChannelsSidebar() {
         hint="New Channel"
         onNew={member.role === "admin" ? () => setOpen(true) : undefined}
       >
-        {channels?.map((channel) => (
-          <SidebarItem
-            key={channel._id}
-            label={channel.name}
-            icon={HashIcon}
-            id={channel._id}
-          />
-        ))}
+        <div className="flex flex-col gap-y-1">
+          {channels?.map((channel) => (
+            <SidebarItem
+              key={channel._id}
+              label={channel.name}
+              icon={HashIcon}
+              id={channel._id}
+              variant={channelId === channel._id ? "active" : "default"}
+            />
+          ))}
+        </div>
       </WorkspaceSection>
 
       <WorkspaceSection
@@ -112,7 +116,7 @@ const sidebarItemVariants = cva(
     variants: {
       variant: {
         default: "text-[#F9EdFFCC]",
-        active: "text-[#481349] bg-white/90 hover:bg-white/90",
+        active: "text-white font-semibold bg-white/10 hover:bg-white/10",
       },
     },
     defaultVariants: {
@@ -138,7 +142,7 @@ function SidebarItem({ label, icon: Icon, id, variant }: SidebarItemProps) {
       size="sm"
       className={cn(sidebarItemVariants({ variant }))}
     >
-      <Link href={`/workspaces/${workspaceId}/channel/${id}`}>
+      <Link href={`/workspace/${workspaceId}/channel/${id}`}>
         <Icon className="size-4 mr-1 shrink-0" />
         <span className="text-sm truncate">{label}</span>
       </Link>
@@ -205,7 +209,7 @@ const userItemVariants = cva(
     variants: {
       variant: {
         default: "text-[#F9EdFFCC]",
-        active: "text-[#481349] bg-white/90 hover:bg-white/90",
+        active: "text-white bg-white/10 hover:bg-white/10",
       },
     },
     defaultVariants: {
