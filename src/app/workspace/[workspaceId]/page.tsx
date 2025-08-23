@@ -54,7 +54,7 @@ export default function WorkspacePage() {
     workspaceId,
   ]);
 
-  if (isWorkspaceLoading || isChannelsLoading) {
+  if (isWorkspaceLoading || isChannelsLoading || isMemberLoading) {
     return (
       <div className="h-full flex-1 flex items-center justify-center flex-col gap-y-2">
         <Loader className="size-8 text-muted-foreground animate-spin" />
@@ -62,7 +62,7 @@ export default function WorkspacePage() {
     );
   }
 
-  if (!workspace) {
+  if (!workspace || !member) {
     return (
       <div className="h-full flex-1 flex items-center justify-center flex-col gap-y-2">
         <TriangleAlert className="size-8 text-muted-foreground" />
