@@ -3,4 +3,8 @@ export * from "./editor";
 export * from "./emoji-popover";
 export * from "./hint";
 export * from "./jotai-provider";
+export * from "./message";
+export * from "./messages-list";
 export * from "./modals";
+export * from "./renderer";
+export * from "./thumbnail";

@@ -82,7 +82,7 @@ export function WorkspaceHeader({ workspace, isAdmin }: WorkspaceHeaderProps) {
                   onClick={() => setInviteOpen(true)}
                 >
                   <Users className="size-5" />
-                  Invite people to {workspace?.name}
+                  Invite people to workspace
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="cursor-pointer py-2 flex items-center gap-2"
