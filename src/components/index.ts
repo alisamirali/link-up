@@ -9,3 +9,4 @@ export * from "./messages-list";
 export * from "./modals";
 export * from "./renderer";
 export * from "./thumbnail";
+export * from "./toolbar";
