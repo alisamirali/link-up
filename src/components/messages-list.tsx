@@ -1,9 +1,12 @@
 "use client";
 
-import { Message } from "@/components";
+import { ChannelHero, Message } from "@/components";
+import { useCurrentMember } from "@/features/members/api";
 import { GetMessagesReturnType } from "@/features/messages/api";
+import { useWorkspaceId } from "@/hooks";
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Id } from "../../convex/_generated/dataModel";
 
 type Props = {
   memberName?: string;
@@ -39,8 +42,11 @@ export function MessagesList({
   memberImage,
   memberName,
 }: Props) {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const workspaceId = useWorkspaceId();
   const prevMessageCountRef = useRef<number>(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { data: currentMember } = useCurrentMember({ workspaceId });
+  const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
 
   const groupedMessages = data?.reduce(
     (groups, message) => {
@@ -115,16 +121,20 @@ export function MessagesList({
                 threadCount={message?.threadCount}
                 threadImage={message?.threadImage}
                 threadTimestamp={message?.threadTimestamp}
-                isEditing={false}
-                setEditingId={() => {}}
+                isEditing={editingId === message?._id}
+                setEditingId={setEditingId}
                 isCompact={isCompact!}
-                hideThreadButton={false}
-                isAuthor={false}
+                hideThreadButton={variant === "thread"}
+                isAuthor={message?.memberId === currentMember?._id}
               />
             );
           })}
         </div>
       ))}
+
+      {variant === "channel" && channelName && channelCreationTime && (
+        <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
     </div>
   );
 }
