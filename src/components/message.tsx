@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-import { Hint, Thumbnail } from "@/components";
+import { Hint, Thumbnail, Toolbar } from "@/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format, isToday, isYesterday } from "date-fns";
 import { Doc, Id } from "../../convex/_generated/dataModel";
@@ -117,6 +117,18 @@ export function Message({
           )}
         </div>
       </div>
+
+      {!isEditing && (
+        <Toolbar
+          isAuthor={isAuthor}
+          isPending={false}
+          handleEdit={() => setEditingId(id)}
+          handleThread={() => {}}
+          handleDelete={() => {}}
+          hideThreadButton={hideThreadButton}
+          handleReaction={() => {}}
+        />
+      )}
     </div>
   );
 }
