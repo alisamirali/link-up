@@ -7,6 +7,7 @@ export * from "./jotai-provider";
 export * from "./message";
 export * from "./messages-list";
 export * from "./modals";
+export * from "./reactions";
 export * from "./renderer";
 export * from "./thumbnail";
 export * from "./toolbar";

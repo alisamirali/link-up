@@ -2,9 +2,10 @@
 
 import dynamic from "next/dynamic";
 
-import { Hint, Thumbnail, Toolbar } from "@/components";
+import { Hint, Reactions, Thumbnail, Toolbar } from "@/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useDeleteMessage, useUpdateMessage } from "@/features/messages/api";
+import { useToggleReaction } from "@/features/reactions/api";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday } from "date-fns";
 import { toast } from "sonner";
@@ -76,8 +77,25 @@ export function Message({
     useUpdateMessage();
   const { mutate: deleteMessage, isPending: isDeletingMessage } =
     useDeleteMessage();
+  const { mutate: toggleReaction, isPending: isTogglingReaction } =
+    useToggleReaction();
 
-  const isPending = isUpdatingMessage || isDeletingMessage;
+  const isPending =
+    isUpdatingMessage || isDeletingMessage || isTogglingReaction;
+
+  const handleToggleReaction = (reaction: string) => {
+    toggleReaction(
+      {
+        messageId: id,
+        value: reaction,
+      },
+      {
+        onError: () => {
+          toast.error("Failed to toggle reaction");
+        },
+      }
+    );
+  };
 
   const handleUpdate = ({ body }: { body: string }) => {
     updateMessage(
@@ -149,6 +167,8 @@ export function Message({
               {updatedAt && (
                 <span className="text-xs text-muted-foreground">(edited)</span>
               )}
+
+              <Reactions data={reactions} onChange={handleToggleReaction} />
             </div>
           )}
         </div>
@@ -161,7 +181,7 @@ export function Message({
             handleThread={() => {}}
             handleDelete={handleDelete}
             hideThreadButton={hideThreadButton}
-            handleReaction={() => {}}
+            handleReaction={handleToggleReaction}
           />
         )}
       </div>
@@ -217,6 +237,8 @@ export function Message({
             {updatedAt && (
               <span className="text-xs text-muted-foreground">(edited)</span>
             )}
+
+            <Reactions data={reactions} onChange={handleToggleReaction} />
           </div>
         )}
       </div>
@@ -229,7 +251,7 @@ export function Message({
           handleThread={() => {}}
           handleDelete={handleDelete}
           hideThreadButton={hideThreadButton}
-          handleReaction={() => {}}
+          handleReaction={handleToggleReaction}
         />
       )}
     </div>
