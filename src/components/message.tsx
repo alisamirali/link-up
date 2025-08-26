@@ -6,6 +6,7 @@ import { Hint, Reactions, Thumbnail, Toolbar } from "@/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useDeleteMessage, useUpdateMessage } from "@/features/messages/api";
 import { useToggleReaction } from "@/features/reactions/api";
+import { usePanel } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { format, isToday, isYesterday } from "date-fns";
 import { toast } from "sonner";
@@ -73,6 +74,7 @@ export function Message({
   threadImage,
   threadTimestamp,
 }: Props) {
+  const { onOpenMessage, onCloseMessage, parentMessageId } = usePanel();
   const { mutate: updateMessage, isPending: isUpdatingMessage } =
     useUpdateMessage();
   const { mutate: deleteMessage, isPending: isDeletingMessage } =
@@ -124,6 +126,8 @@ export function Message({
         onSuccess: () => {
           toast.success("Message deleted successfully");
           setEditingId(null);
+
+          if (parentMessageId === id) onCloseMessage();
         },
         onError: () => {
           toast.error("Failed to delete message");
@@ -178,7 +182,7 @@ export function Message({
             isAuthor={isAuthor}
             isPending={isPending}
             handleEdit={() => setEditingId(id)}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             handleDelete={handleDelete}
             hideThreadButton={hideThreadButton}
             handleReaction={handleToggleReaction}
@@ -248,7 +252,7 @@ export function Message({
           isAuthor={isAuthor}
           isPending={isPending}
           handleEdit={() => setEditingId(id)}
-          handleThread={() => {}}
+          handleThread={() => onOpenMessage(id)}
           handleDelete={handleDelete}
           hideThreadButton={hideThreadButton}
           handleReaction={handleToggleReaction}
