@@ -1,6 +1,6 @@
 "use client";
 
-import { ChannelHero, Message } from "@/components";
+import { ChannelHero, ConversationHero, Message } from "@/components";
 import { useCurrentMember } from "@/features/members/api";
 import { GetMessagesReturnType } from "@/features/messages/api";
 import { useWorkspaceId } from "@/hooks";
@@ -166,6 +166,10 @@ export function MessagesList({
 
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
+
+      {variant === "conversation" && (
+        <ConversationHero memberName={memberName} memberImage={memberImage} />
       )}
     </div>
   );

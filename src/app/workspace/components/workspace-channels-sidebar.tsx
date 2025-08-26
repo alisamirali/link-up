@@ -6,7 +6,7 @@ import { useGetChannels } from "@/features/channels/api";
 import { useCreateChannelModal } from "@/features/channels/store";
 import { useCurrentMember, useGetMembers } from "@/features/members/api";
 import { useGetWorkspace } from "@/features/workspaces/api";
-import { useChannelId, useWorkspaceId } from "@/hooks";
+import { useChannelId, useMemberId, useWorkspaceId } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import {
@@ -26,6 +26,7 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 export function WorkspaceChannelsSidebar() {
   const workspaceId = useWorkspaceId();
+  const memberId = useMemberId();
   const channelId = useChannelId();
   const [_open, setOpen] = useCreateChannelModal();
 
@@ -103,6 +104,7 @@ export function WorkspaceChannelsSidebar() {
             id={member._id}
             label={member?.user?.name}
             image={member?.user?.image}
+            variant={member._id === memberId ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
