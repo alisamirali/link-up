@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-import { Hint, Reactions, Thumbnail, Toolbar } from "@/components";
+import { Hint, Reactions, ThreadBar, Thumbnail, Toolbar } from "@/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useDeleteMessage, useUpdateMessage } from "@/features/messages/api";
 import { useToggleReaction } from "@/features/reactions/api";
@@ -48,6 +48,7 @@ type Props = {
   hideThreadButton?: boolean;
   threadCount?: number;
   threadImage?: string;
+  threadName?: string;
   threadTimestamp?: number;
 };
 
@@ -72,6 +73,7 @@ export function Message({
   hideThreadButton,
   threadCount,
   threadImage,
+  threadName,
   threadTimestamp,
 }: Props) {
   const { onOpenMessage, onCloseMessage, parentMessageId } = usePanel();
@@ -173,6 +175,14 @@ export function Message({
               )}
 
               <Reactions data={reactions} onChange={handleToggleReaction} />
+
+              <ThreadBar
+                count={threadCount}
+                image={threadImage}
+                name={threadName}
+                timestamp={threadTimestamp}
+                onClick={() => onOpenMessage(id)}
+              />
             </div>
           )}
         </div>
@@ -243,6 +253,14 @@ export function Message({
             )}
 
             <Reactions data={reactions} onChange={handleToggleReaction} />
+
+            <ThreadBar
+              count={threadCount}
+              image={threadImage}
+              name={threadName}
+              timestamp={threadTimestamp}
+              onClick={() => onOpenMessage(id)}
+            />
           </div>
         )}
       </div>
