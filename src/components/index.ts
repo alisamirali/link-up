@@ -10,5 +10,6 @@ export * from "./messages-list";
 export * from "./modals";
 export * from "./reactions";
 export * from "./renderer";
+export * from "./thread-bar";
 export * from "./thumbnail";
 export * from "./toolbar";
