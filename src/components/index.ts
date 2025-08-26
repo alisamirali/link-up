@@ -1,4 +1,5 @@
 export * from "./channel-hero";
+export * from "./conversation-hero";
 export * from "./convex-client-provider";
 export * from "./editor";
 export * from "./emoji-popover";
