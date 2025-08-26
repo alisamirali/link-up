@@ -34,7 +34,7 @@ export function ChatInput({ placeholder }: Props) {
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
 
-  const { mutate } = useCreateMessage();
+  const { mutate: createMessage } = useCreateMessage();
   const { mutate: generateUploadUrl } = useGenerateUploadUrl();
 
   const handleSubmit = async ({
@@ -72,7 +72,7 @@ export function ChatInput({ placeholder }: Props) {
         values.image = storageId;
       }
 
-      await mutate(values, {
+      await createMessage(values, {
         throwError: true,
       });
 
