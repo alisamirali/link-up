@@ -1,7 +1,7 @@
 import { MessagesList } from "@/components";
 import { useGetMember } from "@/features/members/api";
 import { useGetMessages } from "@/features/messages/api";
-import { useMemberId } from "@/hooks";
+import { useMemberId, usePanel } from "@/hooks";
 import { Loader } from "lucide-react";
 import { Id } from "../../../../../../convex/_generated/dataModel";
 import { ChatInput } from "../components/chat-input";
@@ -13,6 +13,7 @@ type Props = {
 
 export function Conversation({ id }: Props) {
   const memberId = useMemberId();
+  const { onOpenProfile } = usePanel();
   const { data: member, isLoading: isMemberLoading } = useGetMember({
     id: memberId,
   });
@@ -33,7 +34,7 @@ export function Conversation({ id }: Props) {
       <ConversationHeader
         memberName={member?.user?.name}
         memberImage={member?.user?.image}
-        onClick={() => {}}
+        onClick={() => onOpenProfile(memberId)}
       />
 
       <MessagesList

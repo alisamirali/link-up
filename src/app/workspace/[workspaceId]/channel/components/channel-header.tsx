@@ -91,8 +91,8 @@ export function ChannelHeader({ name }: Props) {
             variant="ghost"
             className="text-lg font-semibold px-2 overflow-hidden w-auto"
           >
-            <span className="truncate"># {name}</span>
-            <FaChevronDown className="size-2.5 ml-2" />
+            <span className="truncate text-base"># {name}</span>
+            <FaChevronDown className="size-2 ml-2 text-muted-foreground" />
           </Button>
         </DialogTrigger>
 
