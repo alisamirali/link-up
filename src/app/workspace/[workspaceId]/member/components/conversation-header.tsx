@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { FaChevronDown } from "react-icons/fa";
 
 type Props = {
   memberName?: string;
@@ -26,7 +27,8 @@ export function ConversationHeader({
             {memberName.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <span className="truncate">{memberName}</span>
+        <span className="truncate text-base">{memberName}</span>
+        <FaChevronDown className="size-2 ml-2 text-muted-foreground" />
       </Button>
     </header>
   );
