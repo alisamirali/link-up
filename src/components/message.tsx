@@ -76,7 +76,8 @@ export function Message({
   threadName,
   threadTimestamp,
 }: Props) {
-  const { onOpenMessage, onCloseMessage, parentMessageId } = usePanel();
+  const { onOpenMessage, onCloseMessage, parentMessageId, onOpenProfile } =
+    usePanel();
   const { mutate: updateMessage, isPending: isUpdatingMessage } =
     useUpdateMessage();
   const { mutate: deleteMessage, isPending: isDeletingMessage } =
@@ -212,7 +213,7 @@ export function Message({
       )}
     >
       <div className="flex items-start gap-2">
-        <button>
+        <button onClick={() => onOpenProfile(memberId)}>
           <Avatar>
             <AvatarImage src={authorImage} />
             <AvatarFallback className="bg-sky-500 text-white text-sm">
@@ -234,7 +235,10 @@ export function Message({
         ) : (
           <div className="flex flex-col w-full overflow-hidden">
             <div className="text-sm">
-              <button className="font-semibold text-primary hover:underline">
+              <button
+                onClick={() => onOpenProfile(memberId)}
+                className="font-semibold text-primary hover:underline"
+              >
                 {authorName}
               </button>
               <span>&nbsp;&nbsp;</span>

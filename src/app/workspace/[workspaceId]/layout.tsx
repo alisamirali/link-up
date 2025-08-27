@@ -10,6 +10,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Profile } from "@/features/members/components";
 import { Thread } from "@/features/messages/components";
 import { usePanel } from "@/hooks";
 import { Loader } from "lucide-react";
@@ -20,9 +21,9 @@ export default function WorkspaceLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { parentMessageId, onCloseMessage } = usePanel();
+  const { parentMessageId, onCloseMessage, memberProfileId } = usePanel();
 
-  const showPanel = !!parentMessageId;
+  const showPanel = !!parentMessageId || !!memberProfileId;
 
   return (
     <div className="h-full">
@@ -54,6 +55,11 @@ export default function WorkspaceLayout({
                 {parentMessageId ? (
                   <Thread
                     messageId={parentMessageId as Id<"messages">}
+                    onClose={onCloseMessage}
+                  />
+                ) : memberProfileId ? (
+                  <Profile
+                    memberId={memberProfileId as Id<"members">}
                     onClose={onCloseMessage}
                   />
                 ) : (
