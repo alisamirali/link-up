@@ -145,13 +145,13 @@ function DmItem({
           <div className="flex items-center justify-between w-full gap-2">
             <span className="text-sm font-medium truncate">{label}</span>
             {time && (
-              <span className="text-xs text-muted-foreground shrink-0">
+              <span className="text-xs text-white/70 shrink-0">
                 {time}
               </span>
             )}
           </div>
           {preview && (
-            <span className="text-xs text-muted-foreground truncate w-full">
+            <span className="text-xs text-white/70 truncate w-full">
               {preview}
             </span>
           )}
