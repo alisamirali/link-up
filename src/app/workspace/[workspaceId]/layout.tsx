@@ -3,6 +3,7 @@
 import {
   Toolbar,
   WorkspaceChannelsSidebar,
+  WorkspaceDmsSidebar,
   WorkspaceSidebar,
 } from "@/app/workspace/components";
 import {
@@ -14,6 +15,7 @@ import { Profile } from "@/features/members/components";
 import { Thread } from "@/features/messages/components";
 import { usePanel } from "@/hooks";
 import { Loader } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { Id } from "../../../../convex/_generated/dataModel";
 
 export default function WorkspaceLayout({
@@ -22,6 +24,9 @@ export default function WorkspaceLayout({
   children: React.ReactNode;
 }) {
   const { parentMessageId, onCloseMessage, memberProfileId } = usePanel();
+  const pathname = usePathname();
+  // Show DMs sidebar when on /dms or /member routes (DM conversations)
+  const isDmsPage = pathname?.includes("/dms") || pathname?.includes("/member");
 
   const showPanel = !!parentMessageId || !!memberProfileId;
 
@@ -41,7 +46,11 @@ export default function WorkspaceLayout({
             minSize={11}
             className="bg-[#5E2C5F]"
           >
-            <WorkspaceChannelsSidebar />
+            {isDmsPage ? (
+              <WorkspaceDmsSidebar />
+            ) : (
+              <WorkspaceChannelsSidebar />
+            )}
           </ResizablePanel>
 
           <ResizableHandle withHandle />
