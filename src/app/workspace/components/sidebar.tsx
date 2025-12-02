@@ -15,13 +15,17 @@ export function WorkspaceSidebar() {
       <SidebarButton
         icon={Home}
         label="Home"
-        isActive={pathname.includes("/workspace") && !pathname.includes("/dms")}
+        isActive={
+          pathname.includes("/workspace") &&
+          !pathname.includes("/dms") &&
+          !pathname.includes("/member")
+        }
         href={`/workspace/${workspaceId}`}
       />
       <SidebarButton
         icon={MessageCircle}
         label="DMs"
-        isActive={pathname.includes("/dms")}
+        isActive={pathname.includes("/dms") || pathname.includes("/member")}
         href={`/workspace/${workspaceId}/dms`}
       />
       <SidebarButton icon={Bell} label="Activity" />
